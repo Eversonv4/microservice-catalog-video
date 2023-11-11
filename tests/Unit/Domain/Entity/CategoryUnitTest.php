@@ -28,9 +28,18 @@ class CategoryUnitTest extends TestCase
     );
 
     $this->assertFalse($category->isActive);
-
     $category->activate();
+    $this->assertTrue($category->isActive);
+  }
+
+  public function test_disabled()
+  {
+    $category = new Category(
+      name: "New Cat"
+    );
 
     $this->assertTrue($category->isActive);
+    $category->disable();
+    $this->assertFalse($category->isActive);
   }
 }
