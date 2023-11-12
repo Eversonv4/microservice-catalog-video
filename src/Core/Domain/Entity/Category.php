@@ -3,6 +3,8 @@
 namespace Core\Domain\Entity;
 
 use Core\Domain\Entity\Traits\MethodsMagicsTrait;
+use Core\Domain\Exception\EntityValidateException;
+use Core\Domain\Validation\DomainValidation;
 
 class Category
 {
@@ -13,6 +15,8 @@ class Category
     protected string $description = "",
     protected bool $isActive = true
   ) {
+
+    $this->validate();
   }
 
   public function activate(): void
@@ -29,5 +33,14 @@ class Category
   {
     $this->name = $name;
     $this->description = $description;
+
+    $this->validate();
+  }
+
+  public function validate()
+  {
+    DomainValidation::strMaxLength($this->name);
+    DomainValidation::strMinLength($this->name);
+    DomainValidation::strCanBeNullAndMaxLength($this->description);
   }
 }
